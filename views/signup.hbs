@@ -9,6 +9,9 @@
     <button type="submit">Envoyer</button>
 </form>
 <h2>{{title}}</h2>
+{{#if user}}
+    <p>Bienvenu {{user.username}} ! Vous avez l'id: {{user._id}}</p>
+{{/if}}
 <ul>
     {{#each users}}
         <li>

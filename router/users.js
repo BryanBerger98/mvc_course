@@ -5,6 +5,7 @@ const expressValidator = require('express-validator');
 const passwordValidator = require('password-validator');
 
 router.get('/signup', userController.getSignupPage);
+router.get('/signin', userController.getSigninPage);
 router.post(
     '/signup',
     expressValidator.body('city').custom(value => {
@@ -22,6 +23,8 @@ router.post(
     }),
     userController.signupUser
 );
-router.get('/username/:username', userController.getUserPage)
+router.post('/signin', userController.signinUser);
+router.get('/username/:username', userController.getUserPage);
+router.get('/logout', userController.logoutUser);
 
 module.exports = router;
