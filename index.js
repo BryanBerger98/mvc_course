@@ -17,7 +17,7 @@ app.use(express.urlencoded({extended: false}));
 // Middleware sessions
 app.use(sessionMiddleware);
 
-// Configuration le moteur de vues
+// Configuration du moteur de vues
 app.engine('hbs', expressHbs({
     defaultLayout: 'main',
     extname: '.hbs',
