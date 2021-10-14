@@ -28,8 +28,8 @@ module.exports = {
     },
     // Connecte un utilisateur
     signinUser: (req, res) => {
-        // Récupération d'un utilisateur par son username
-        User.findOne({ username: req.body.username })
+        // Récupération d'un utilisateur par son email
+        User.findOne({ email: req.body.email })
             .then((user) => {
                 // Condition de vérification du mot de passe
                 if (user.password === req.body.password) {
@@ -40,7 +40,7 @@ module.exports = {
                     const expiresAt = Date.now() + (1000 * 60 * 60 * 24 * 30); // Date d'expiration du cookie
                     // Ajout du cookie de connection
                     res.setHeader('Set-Cookie', 'loggedIn=true; path=/; Expires=' + new Date(expiresAt).toUTCString());
-                    return res.redirect('/');
+                    return res.redirect('/users/admin');
                 }
                 return res.status(500).json(new Error('Wrong password').message);
             }).catch(error => {

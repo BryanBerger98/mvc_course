@@ -12,7 +12,6 @@ router.post(
     '/signup',
     expressValidator.body('email').isEmail(),
     [validateConfirmPassword],
-
     userController.signupUser
 );
 router.post('/signin', userController.signinUser);
