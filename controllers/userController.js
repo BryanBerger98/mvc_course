@@ -71,13 +71,11 @@ module.exports = {
         })
     },
     uploadUserProfilePhoto: (req, res) => {
-        console.log(req.file);
         if (req.file) {
             const userId = req.params.id;
-            console.log(userId);
             User.updateOne({_id: userId}, {
                 $set: {
-                    photo: req.file.filename
+                    photo: '/' + req.file.filename
                 }
             }).then(response => {
                 res.render('admin');
