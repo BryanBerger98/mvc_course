@@ -29,9 +29,6 @@ app.set('views', 'views');
 
 app.use('/users', usersRoutes);
 
-app.get('/', authGuardMiddleware, (req, res) => {
-    res.render('home');
-});
 
 mongoose.connect('mongodb://localhost:27017/demo', (err) => {
     if (err) {
