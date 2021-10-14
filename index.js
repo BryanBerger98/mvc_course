@@ -9,10 +9,16 @@ const usersRoutes = require('./router/users');
 const mongoose = require('mongoose');
 const sessionMiddleware = require('./middlewares/session');
 const authGuardMiddleware = require('./middlewares/auth-guard');
+const cors = require('cors');
+
+app.use(cors());
 
 // Middleware express.json => Déchiffre le body
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'uploads')));
+
 
 // Middleware sessions
 app.use(sessionMiddleware);

@@ -69,5 +69,25 @@ module.exports = {
             res.render('admin', {users})
 
         })
+    },
+    uploadUserProfilePhoto: (req, res) => {
+        console.log(req.file);
+        if (req.file) {
+            const userId = req.params.id;
+            console.log(userId);
+            User.updateOne({_id: userId}, {
+                $set: {
+                    photo: req.file.filename
+                }
+            }).then(response => {
+                res.render('admin');
+            }).catch(error => {
+                console.error(error);
+                res.status(500).json({error});
+            });
+        } else {
+            console.log('ERR');
+            res.status(500).json(new Error('Vous devez envoyer une photo').message);
+        }
     }
 }

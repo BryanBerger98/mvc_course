@@ -3,10 +3,18 @@
 <ul>
     {{#each users}}
 
-    <li>{{this.firstName}}
+    <li>
+        <img src="{{this.photo}}">
+        {{this.firstName}}
         {{this.surname}}
         {{this.birthDate}}
     </li>
+
+    <form id="profilePhotoForm">
+        <input type="text" name="id" value="{{this._id}}" disabled hidden>
+        <input type="file" name="file" id="profilePhotoInput">
+        <button type="submit">Envoyer</button>
+    </form>
 
     {{/each}}
 
