@@ -39,13 +39,16 @@ app.get('/', (req, res) => {
 
 app.use('/users', usersRoutes);
 
-mongoose.connect('mongodb://localhost:27017/demo', (err) => {
-    if (err) {
-        console.error(err);
-        process.exit(1);
-    }
+mongoose.connect(
+    'mongodb+srv://admin:ss8DvFRm9439LtdX@cluster0.1yqa6.mongodb.net/demo?retryWrites=true&w=majority',
+    { useNewUrlParser: true, useUnifiedTopology: true }
+)
+.then(() => {
     console.log('MongoDB connected successfully');
-});
+}).catch(error => {
+    console.error(error);
+    process.exit(1);
+})
 
 server.listen(port, () => {
     console.log(`NodeJS server started on port ${port}`)
