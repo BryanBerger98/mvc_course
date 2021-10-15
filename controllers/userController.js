@@ -1,5 +1,7 @@
 const { validationResult } = require("express-validator");
 const User = require('../models/User');
+const path = require('path');
+const fs = require('fs');
 
 module.exports = {
     // Affiche la page d'inscription
@@ -17,14 +19,34 @@ module.exports = {
             res.status(500).json({ errors: errors.array() });
             return;
         }
-        const user = new User(req.body);
-        user.save()
+
+        if (req.file) {
+            const date = new Date();
+            const fileDate = date.getFullYear().toString() + (date.getMonth() + 1).toString() + date.getDate().toString(); //20211015
+            const fileNameArray = req.file.filename.split('.'); // monFichier.pdf => ['monFichier', 'pdf']; => 2 - 1
+            const newFileName = req.body.firstName + '_' + fileDate + '.' + fileNameArray[fileNameArray.length - 1];
+            fs.rename(
+                path.join(__dirname, '../uploads/' + req.file.filename),
+                path.join(__dirname, '../uploads/' + newFileName),
+                (err) => {
+                    if (err) {
+                        return res.status(500).json(new Error('Problème lors du renommage du fichier').message);
+                    }
+
+                }
+            );
+            // fs.renameSync(req.file.path, path.join(req.file.destination, req.file.originalname))
+
+            const user = new User({...req.body, photo: req.file ? '/' + newFileName : ''});
+            user.save()
             .then(response => {
-                res.render('signup', { user: response.toObject(), title: 'Liste de nos supers utilisateurs' });
+                res.render('signin');
             }).catch(error => {
                 console.error(error);
                 res.status(500).json({ error });
-            })
+            });
+
+        }
     },
     // Connecte un utilisateur
     signinUser: (req, res) => {
@@ -40,7 +62,7 @@ module.exports = {
                     const expiresAt = Date.now() + (1000 * 60 * 60 * 24 * 30); // Date d'expiration du cookie
                     // Ajout du cookie de connection
                     res.setHeader('Set-Cookie', 'loggedIn=true; path=/; Expires=' + new Date(expiresAt).toUTCString());
-                    return res.redirect('/users/admin');
+                    return res.redirect('/');
                 }
                 return res.status(500).json(new Error('Wrong password').message);
             }).catch(error => {
@@ -62,13 +84,16 @@ module.exports = {
     getUserPage: (req, res) => {
         const username = req.params.username;
         const user = users.find(user => user.username === username);
+
+        
+
+
         res.render('user', { user });
     },
     getAdminPage: (req, res) => {
         User.find().lean().then(users => {
             res.render('admin', {users})
-
-        })
+        });
     },
     uploadUserProfilePhoto: (req, res) => {
         if (req.file) {

@@ -33,8 +33,11 @@ app.engine('hbs', expressHbs({
 app.set('view engine', 'hbs');
 app.set('views', 'views');
 
-app.use('/users', usersRoutes);
+app.get('/', (req, res) => {
+    res.render('home');
+});
 
+app.use('/users', usersRoutes);
 
 mongoose.connect('mongodb://localhost:27017/demo', (err) => {
     if (err) {

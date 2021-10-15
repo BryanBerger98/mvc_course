@@ -1,4 +1,4 @@
-<form action="/users/signup" method="POST">
+<form action="/users/signup" method="POST" enctype="multipart/form-data">
 
     <input type="text" placeholder="Votre email" name="email">
     <input type="password" placeholder="Votre mot de passe" name="password">
@@ -6,5 +6,7 @@
     <input type="text" name="firstName" placeholder="firstName">
     <input type="text" name="surname" placeholder="surname">
     <input type="date" name="birthDate" placeholder="birthDate">
+    <label for="photoFileInput">Votre photo</label>
+    <input type="file" name="file" id="photoFileInput">
     <button type="submit">Envoyer</button>
 </form>

@@ -7,6 +7,7 @@ const {validateConfirmPassword} = require('../middlewares/validateConfirmPasswor
 const multer = require('multer');
 const path = require('path');
 const crypto = require('crypto');
+const authGuard = require('../middlewares/auth-guard');
 
 const storage = multer.diskStorage({
     destination: './uploads/',
@@ -18,7 +19,7 @@ const storage = multer.diskStorage({
     }
 });
 
-const upload = multer({storage})
+const upload = multer({storage});
 
 router.post(
     '/upload-photo/:id',
@@ -30,6 +31,7 @@ router.get('/signup', userController.getSignupPage);
 router.get('/signin', userController.getSigninPage);
 router.post(
     '/signup',
+    upload.single('file'),
     expressValidator.body('email').isEmail(),
     [validateConfirmPassword],
     userController.signupUser
@@ -37,5 +39,5 @@ router.post(
 router.post('/signin', userController.signinUser);
 router.get('/username/:username', userController.getUserPage);
 router.get('/logout', userController.logoutUser);
-router.get('/admin', userController.getAdminPage)
+router.get('/admin', authGuard, userController.getAdminPage);
 module.exports = router;
