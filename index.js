@@ -53,6 +53,6 @@ mongoose.connect(
     process.exit(1);
 })
 
-server.listen(PORT || 3000, () => {
+server.listen(PORT, () => {
     console.log(`NodeJS server started on port ${PORT}`)
 });
