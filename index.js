@@ -10,6 +10,9 @@ const mongoose = require('mongoose');
 const sessionMiddleware = require('./middlewares/session');
 const authGuardMiddleware = require('./middlewares/auth-guard');
 const cors = require('cors');
+require('dotenv').config();
+
+const { PORT, MONGODB_URI } = process.env;
 
 app.use(cors());
 
@@ -40,7 +43,7 @@ app.get('/', (req, res) => {
 app.use('/users', usersRoutes);
 
 mongoose.connect(
-    'mongodb+srv://admin:ss8DvFRm9439LtdX@cluster0.1yqa6.mongodb.net/demo?retryWrites=true&w=majority',
+    MONGODB_URI,
     { useNewUrlParser: true, useUnifiedTopology: true }
 )
 .then(() => {
@@ -50,6 +53,6 @@ mongoose.connect(
     process.exit(1);
 })
 
-server.listen(port, () => {
-    console.log(`NodeJS server started on port ${port}`)
+server.listen(PORT || 3000, () => {
+    console.log(`NodeJS server started on port ${PORT}`)
 });
