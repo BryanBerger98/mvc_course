@@ -42,6 +42,8 @@ app.get('/', (req, res) => {
 
 app.use('/users', usersRoutes);
 
+console.log(MONGODB_URI);
+
 mongoose.connect(
     MONGODB_URI,
     { useNewUrlParser: true, useUnifiedTopology: true }
