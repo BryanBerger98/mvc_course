@@ -42,10 +42,10 @@ app.get('/', (req, res) => {
 
 app.use('/users', usersRoutes);
 
-console.log(MONGODB_URI);
+console.log('MONGO URI >>>', MONGODB_URI);
 
 mongoose.connect(
-    MONGODB_URI,
+    'mongodb+srv://admin:invlrcMXqoZNF5p7@cluster0.1yqa6.mongodb.net/demo?retryWrites=true&w=majority',
     { useNewUrlParser: true, useUnifiedTopology: true }
 )
 .then(() => {
